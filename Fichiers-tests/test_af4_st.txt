@@ -1,0 +1,6 @@
+Stable extensions:
+[B,D]
+[C,E]
+[A,E]
+[A,D]
+[B,E]

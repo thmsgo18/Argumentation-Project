@@ -1,0 +1,5 @@
+Preferred extensions:
+[B,D]
+[B,E]
+[A,D]
+[A,E]
