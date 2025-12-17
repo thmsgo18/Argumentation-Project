@@ -14,6 +14,31 @@ Instructions d'installation du projet.
 
 Instructions d'utilisation du projet.
 
+## Arborescence
+
+```
+RCR/
+├─ README.md
+├─ program.py
+├─ src/
+│  ├─ __init__.py
+│  ├─ cli.py
+│  ├─ apx_parser.py
+│  ├─ af.py
+│  ├─ semantics.py
+│  └─ queries.py
+├─ tests/
+│  ├─ data/
+│  │  ├─ af1.apx
+│  │  ├─ af2.apx
+│  │  └─ ...
+│  ├─ test_parser.py
+│  ├─ test_semantics.py
+│  └─ test_queries.py
+└─ report/
+   └─ Toto_Titi.pdf
+```
+
 # ✅ TODO List – Projet Argumentation
 
 ## 1. Gestion de la ligne de commande
