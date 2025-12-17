@@ -27,11 +27,11 @@ RCR/
 │  ├─ af.py
 │  ├─ semantics.py
 │  └─ queries.py
+├─ Fichiers_tests/
+│  ├─ af1.apx
+│  ├─ af2.apx
+│  └─ ...
 ├─ tests/
-│  ├─ data/
-│  │  ├─ af1.apx
-│  │  ├─ af2.apx
-│  │  └─ ...
 │  ├─ test_parser.py
 │  ├─ test_semantics.py
 │  └─ test_queries.py
