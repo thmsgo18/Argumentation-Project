@@ -84,6 +84,3 @@ def stable_extensions(af: AF) -> list[set[str]]:
         if is_stable(af, se):
             res.append(se)
     return res
-
-
-

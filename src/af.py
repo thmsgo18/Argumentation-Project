@@ -20,5 +20,3 @@ class AF:
             if(r[0] == a):
                 attacks.add(r[1])
         return attacks
-
-

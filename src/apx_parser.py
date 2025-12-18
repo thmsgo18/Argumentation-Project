@@ -5,15 +5,14 @@ def parse_apx(path: str) -> tuple[set[str], set[tuple[str, str]]]:
         for ligne in fichier:
             ligne = ligne.strip()
             if ligne.startswith("arg("):
-                A.add(ligne[4:-2])
+                A.add(ligne[4:-2].lower())
             elif ligne.startswith("att("):
                 args = ligne[4:-2]
                 args = args.split(',')
-                x = args[0]
-                y = args[1]
+                x = args[0].lower()
+                y = args[1].lower()
                 if x not in A or y not in A:
                     raise ValueError(f"Error: Argument utilisé dans une attaque avant d’être déclaré.")
                 else :
                     R.add((x, y))
     return A, R
-
