@@ -1,7 +1,7 @@
 import sys
 from src.cli import parse_args
 from src.apx_parser import parse_apx
-from src.af import AF
+from src.systeme_argumentation import AS
 from src.queries import solve_query
 
 def parse_and_validate_query(problem: str, raw_a: str):
@@ -29,9 +29,9 @@ def main():
         query = parse_and_validate_query(problem, args["arguments"])
 
         A, R = parse_apx(args["file"])
-        af = AF(A, R)
+        systeme_argumentation = AS(A, R)
 
-        res = solve_query(problem, af, query)
+        res = solve_query(problem, systeme_argumentation, query)
         print("YES" if res else "NO")
 
     except Exception as e:

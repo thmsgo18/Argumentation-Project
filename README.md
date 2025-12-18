@@ -1,202 +1,176 @@
-# Projet RCR
+# 🎯 Projet Argumentation Abstraite
 
-Projet de Master IAD - S1
+> Projet de Master IAD - Représentation des Connaissances et Raisonnement  
+> Année universitaire 2025-2026
 
-## Description
+## 📋 Description
 
-Ajouter une description du projet ici.
+Ce projet implémente un solveur pour systèmes d'argumentation abstraite (Abstract Argumentation Framework). Il permet de calculer et vérifier différents types d'extensions selon les sémantiques préférées (PR) et stables (ST).
 
-## Installation
+Un système d'argumentation est défini par **F = ⟨A, R⟩** où :
+- **A** est un ensemble d'arguments abstraits
+- **R ⊆ A × A** est la relation d'attaque entre arguments
 
-Instructions d'installation du projet.
+### Problèmes résolus
 
-## Utilisation
+Le programme résout les 6 problèmes suivants :
 
-Instructions d'utilisation du projet.
+| Type | Sémantique | Description |
+|------|-----------|-------------|
+| **VE-PR** | Préférée | Vérifier si S est une extension préférée |
+| **DC-PR** | Préférée | Acceptabilité crédule d'un argument |
+| **DS-PR** | Préférée | Acceptabilité sceptique d'un argument |
+| **VE-ST** | Stable | Vérifier si S est une extension stable |
+| **DC-ST** | Stable | Acceptabilité crédule d'un argument |
+| **DS-ST** | Stable | Acceptabilité sceptique d'un argument |
 
-## Arborescence
+## 🚀 Installation
 
-```
-RCR/
-├─ README.md
-├─ program.py
-├─ src/
-│  ├─ __init__.py
-│  ├─ cli.py
-│  ├─ apx_parser.py
-│  ├─ af.py
-│  ├─ semantics.py
-│  └─ queries.py
-├─ Fichiers_tests/
-│  ├─ af1.apx
-│  ├─ af2.apx
-│  └─ ...
-├─ tests/
-│  ├─ test_parser.py
-│  ├─ test_semantics.py
-│  └─ test_queries.py
-└─ report/
-   └─ Toto_Titi.pdf
+### Prérequis
+
+- Python 3.8 ou supérieur
+- Aucune dépendance externe nécessaire (bibliothèque standard uniquement)
+
+### Vérification de l'installation
+
+```bash
+python3 --version
 ```
 
-# ✅ TODO List – Projet Argumentation
+## 💻 Utilisation
 
-## 1. Gestion de la ligne de commande
+### Syntaxe générale
 
-- [ ] Parser l’option `-p`
-  - Lire la valeur après `-p` et vérifier qu’elle est parmi : `VE-PR`, `DC-PR`, `DS-PR`, `VE-ST`, `DC-ST`, `DS-ST`.
-- [ ] Parser l’option `-f`
-  - Récupérer le chemin du fichier `.apx`, vérifier qu’il est présent et lisible.
-- [ ] Parser l’option `-a`
-  - Lire la liste d’arguments passée (ex. `a,b,c`) et la convertir en liste/ensemble Python.
-- [ ] Vérifier la validité des arguments
-  - Vérifier que toutes les options nécessaires sont présentes et qu’il n’y a pas d’option inconnue.
-- [ ] Gérer les erreurs minimales
-  - En cas de problème (option manquante, fichier introuvable, etc.), afficher un message clair et arrêter le programme.
+```bash
+python3 programme.py -p <PROBLEME> -f <FICHIER> -a <ARGUMENTS>
+```
 
----
+### Paramètres
 
-## 2. Parser du fichier `.apx`
+- **-p** : Type de problème (`VE-PR`, `DC-PR`, `DS-PR`, `VE-ST`, `DC-ST`, `DS-ST`)
+- **-f** : Chemin vers le fichier `.apx` contenant l'AF
+- **-a** : Arguments de la requête
+  - Pour VE-* : liste séparée par des virgules (ex: `a,c,d`)
+  - Pour DC-* et DS-* : un seul argument (ex: `b`)
 
-- [ ] Lire le fichier ligne par ligne
-  - Ouvrir le fichier et parcourir chaque ligne en ignorant les lignes vides.
-- [ ] Extraire les `arg(x).`
-  - Pour chaque ligne qui commence par `arg(`, extraire `x` et l’ajouter à l’ensemble des arguments `A`.
-- [ ] Extraire les `att(x,y).`
-  - Pour chaque ligne qui commence par `att(`, extraire `x` et `y`, puis ajouter `(x,y)` à la relation d’attaque `R`.
-- [ ] Vérifier que les arguments utilisés dans les attaques existent
-  - S’assurer que `x` et `y` sont bien dans `A`; sinon, décider s’il faut lever une erreur ou les ignorer.
-- [ ] Retourner les structures `A` et `R`
-  - À la fin du parsing, retourner par exemple `A: set(str)` et `R: set(tuple(str,str))`.
+### Exemples d'utilisation
 
----
+En supposant que `af.txt` contient l'AF avec A = {a,b,c,d} et R = {(a,b), (b,c), (b,d)} :
 
-## 3. Fonctions de base sur les attaques
+```bash
+# Vérifier si {a,c,d} est une extension préférée
+python3 programme.py -p VE-PR -f af.txt -a a,c,d
+# Sortie: YES
 
-- [ ] Fonction `attackers_of(a)`
-  - Retourner l’ensemble de tous les arguments qui attaquent `a` (tous les `x` tels que `(x,a) ∈ R`).
-- [ ] Fonction `attacks(a)`
-  - Retourner l’ensemble de tous les arguments attaqués par `a` (tous les `x` tels que `(a,x) ∈ R`).
-- [ ] Fonction `S_attacks(a)`
-  - Retourner `True` si au moins un argument de `S` attaque `a`, sinon `False`.
-- [ ] Fonction `S_undefended_argument(S)`
-  - Parcourir les arguments de `S` et retourner un argument qui n’est pas défendu par `S` (ou `None` si tous le sont).
+# Vérifier l'acceptabilité crédule de 'b' (préférée)
+python3 programme.py -p DC-PR -f af.txt -a b
+# Sortie: NO
 
----
+# Vérifier l'acceptabilité sceptique de 'a' (préférée)
+python3 programme.py -p DS-PR -f af.txt -a a
+# Sortie: YES
 
-## 4. Vérifier qu’un ensemble est sans conflit
+# Vérifier si {a,c,d} est une extension stable
+python3 programme.py -p VE-ST -f af.txt -a a,c,d
+# Sortie: YES
+```
 
-- [ ] Implémenter `is_conflict_free(S)`
-  - Vérifier qu’il n’existe pas de paire `(a,b)` dans `S` telle que `(a,b) ∈ R` ou `(b,a) ∈ R`.
-  - Retourner `True` si aucun conflit détecté, sinon `False`.
+## 📁 Structure du projet
 
----
+```
+Projet-RCR/
+├── README.md                    # Ce fichier
+├── programme.py                 # Point d'entrée principal
+├── af.txt                       # Exemple de fichier AF
+├── src/
+│   ├── __init__.py
+│   ├── cli.py                   # Gestion des arguments en ligne de commande
+│   ├── apx_parser.py            # Parser pour fichiers .apx
+│   ├── af.py                    # Classe AF (Argumentation Framework)
+│   ├── semantics.py             # Algorithmes pour les sémantiques
+│   └── queries.py               # Résolution des requêtes
+├── Fichiers-tests/              # Fichiers de test fournis
+│   ├── test_af1.apx
+│   ├── test_af1_pr.txt
+│   ├── test_af1_st.txt
+│   └── ...
+└── tests/                       # Tests unitaires (à compléter)
+    └── __init__.py
+```
 
-## 5. Vérifier la défense
+## 📝 Format du fichier .apx
 
-- [ ] Implémenter `defends(S, a)`
-  - Pour chaque attaquant `x` de `a` (i.e. `(x,a) ∈ R`), vérifier qu’il existe un `y ∈ S` tel que `(y,x) ∈ R`.
-  - Retourner `True` si tous les attaquants de `a` sont contrattaqués par `S`, sinon `False`.
+Les fichiers `.apx` suivent le format suivant :
 
----
+```
+arg(nom_argument).
+att(argument_source,argument_cible).
+```
 
-## 6. Vérifier l’admissibilité
+### Règles
 
-- [ ] Implémenter `is_admissible(S)`
-  - D’abord vérifier que `S` est sans conflit.
-  - Puis vérifier que pour chaque `a ∈ S`, `S` défend `a` (en utilisant la fonction `defends`).
-  - Retourner `True` si les deux conditions sont satisfaites, sinon `False`.
+- Chaque argument doit être déclaré avec `arg()` avant d'être utilisé dans une attaque
+- Pas d'espaces dans les lignes
+- Les noms peuvent contenir lettres, chiffres et `_` (sauf `arg` et `att` qui sont réservés)
 
----
+### Exemple
 
-## 7. Générer les sous-ensembles d’arguments
+```
+arg(a).
+arg(b).
+arg(c).
+arg(d).
+att(a,b).
+att(b,c).
+att(b,d).
+```
 
-- [ ] Générer tous les sous-ensembles de `A` (`all_subsets(A)`)
-  - Utiliser une approche combinatoire (par exemple avec `itertools`) pour obtenir tous les `S ⊆ A`.
-  - Retourner une liste (ou un générateur) de sous-ensembles, chaque sous-ensemble étant représenté comme `set`.
+Cet exemple représente le graphe :
+```
+a → b → c
+    ↓
+    d
+```
 
----
+## 🧮 Algorithmes implémentés
 
-## 8. Calculer les extensions admissibles
+### Sémantique préférée
 
-- [ ] Calculer tous les ensembles admissibles
-  - Parcourir tous les sous-ensembles `S ⊆ A`.
-  - Garder ceux pour lesquels `is_admissible(S)` est vraie.
-  - Retourner la liste de tous ces ensembles admissibles.
+1. Génération de tous les sous-ensembles de A
+2. Filtrage des ensembles sans conflit
+3. Filtrage des ensembles admissibles (qui se défendent)
+4. Sélection des ensembles maximaux par inclusion
 
----
+### Sémantique stable
 
-## 9. Calculer les extensions préférées
+1. Génération de tous les sous-ensembles de A
+2. Filtrage des ensembles sans conflit
+3. Vérification que tous les arguments extérieurs sont attaqués
 
-- [ ] Trouver les ensembles admissibles maximaux
-  - À partir de la liste des ensembles admissibles, garder uniquement ceux qui sont **maximaux par inclusion** (aucun autre admissible ne les contient strictement).
-- [ ] Implémenter `preferred_extensions(A,R)`
-  - Combiner les étapes précédentes pour retourner la liste complète des extensions préférées.
+**Note** : L'approche actuelle est exhaustive (complexité exponentielle). Pour des AF de plus de 20 arguments, des optimisations seraient nécessaires.
 
----
+## 🔍 Tests
 
-## 10. Calculer les extensions stables
+Le dossier `Fichiers-tests/` contient plusieurs cas de test :
 
-- [ ] Implémenter `is_stable(S)`
-  - Vérifier que `S` est sans conflit.
-  - Vérifier que pour tout argument `a ∉ S`, il existe un `b ∈ S` tel que `(b,a) ∈ R` (i.e. `S` attaque tous les arguments hors `S`).
-- [ ] Implémenter `stable_extensions(A,R)`
-  - Parcourir tous les sous-ensembles `S ⊆ A`.
-  - Garder ceux pour lesquels `is_stable(S)` est vraie.
-  - Retourner la liste de toutes les extensions stables.
+```bash
+# Tester avec les fichiers fournis
+python3 programme.py -p VE-PR -f Fichiers-tests/test_af1.apx -a a,c,d
+python3 programme.py -p DC-ST -f Fichiers-tests/test_af2.apx -a b
+```
 
----
+## ⚠️ Limitations connues
 
-## 11. Requêtes VE / DC / DS
+- Complexité exponentielle : impraticable au-delà de ~20 arguments
+- Pas de cache pour les extensions calculées
+- Pas d'optimisation par élagage (pruning)
 
-### Pour les préférées (PR)
+## 👥 Auteurs
 
-- [ ] `VE_PR(S)`
-  - Calculer les extensions préférées.
-  - Vérifier si l’ensemble `S` fourni dans la requête est exactement égal à l’une des extensions préférées.
-- [ ] `DC_PR(a)`
-  - Calculer les extensions préférées.
-  - Retourner `YES` si `a` appartient à **au moins une** extension préférée, sinon `NO`.
-- [ ] `DS_PR(a)`
-  - Calculer les extensions préférées.
-  - Retourner `YES` si `a` appartient à **toutes** les extensions préférées (et gérer le cas où il n’y en a pas, selon ta convention), sinon `NO`.
+Thomas GOMES  
+Master IAD - Université [Nom]
 
-### Pour les stables (ST)
+## 📚 Références
 
-- [ ] `VE_ST(S)`
-  - Calculer les extensions stables.
-  - Vérifier si l’ensemble `S` de la requête est exactement égal à l’une des extensions stables.
-- [ ] `DC_ST(a)`
-  - Calculer les extensions stables.
-  - Retourner `YES` si `a` appartient à **au moins une** extension stable, sinon `NO`.
-- [ ] `DS_ST(a)`
-  - Calculer les extensions stables.
-  - Retourner `YES` si `a` appartient à **toutes** les extensions stables (et gérer le cas où il n’y en a pas), sinon `NO`.
-
----
-
-## 12. Programme principal (`main`)
-
-- [ ] Lire les options de la ligne de commande
-  - Utiliser une bibliothèque (par ex. `argparse` en Python) ou parser manuellement `sys.argv`.
-- [ ] Charger l’AF via le parser `.apx`
-  - Appeler ta fonction de parsing pour obtenir `A` et `R`.
-- [ ] Appeler la bonne fonction selon `-p`
-  - En fonction de la valeur de `-p`, choisir entre PR/ST et VE/DC/DS.
-- [ ] Afficher strictement `YES` ou `NO`
-  - Ne rien afficher d’autre que `YES` ou `NO` sur la sortie standard, comme demandé dans le sujet.
-
----
-
-## 13. Tests
-
-- [ ] Tester avec l’exemple du sujet
-  - Reprendre l’AF de l’énoncé et vérifier que tu obtiens bien les réponses données en exemple.
-- [ ] Tester un AF sans extension stable
-  - Construire un petit AF connu pour ne pas avoir d’extension stable et vérifier le comportement.
-- [ ] Tester un AF avec cycle
-  - Par exemple un cycle `a` attaque `b`, `b` attaque `c`, `c` attaque `a`, et vérifier les extensions.
-- [ ] Tester un AF simple
-  - Très petit AF (1 ou 2 arguments), pour vérifier les cas de base.
-- [ ] Tester un cas limite (1 argument)
-  - Un seul argument sans attaque, vérifier PR/ST, VE/DC/DS.
+Projet basé sur les travaux de Dung (1995) sur l'argumentation abstraite :
+- Dung, P. M. (1995). "On the acceptability of arguments and its fundamental role in nonmonotonic reasoning, logic programming and n-person games". *Artificial Intelligence*, 77(2), 321-357.

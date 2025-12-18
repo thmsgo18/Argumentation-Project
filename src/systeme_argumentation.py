@@ -1,4 +1,14 @@
-class AF:
+"""
+src/systeme_argumentation.py
+
+- Représentation d'un système d’argumentation (AS) avec : <A, R>
+- A : ensemble d'arguments (set[str])
+- R : relation d'attaque (set[tuple[str, str]]) avec (attaquant, attaqué)
+- Fournit des fonctions utilitaires :
+  - attackers_of(a) : qui attaque a
+  - attacks(a)      : qui est attaqué par a
+"""
+class AS:
     def __init__(self, A: set[str], R:set[tuple[str, str]]):
         self.A = A
         self.R = R

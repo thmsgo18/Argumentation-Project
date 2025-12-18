@@ -1,48 +1,48 @@
-from src.af import AF
+from src.systeme_argumentation import AS
 from itertools import combinations
 
-def is_conflict_free(af: AF, S: set[str]) -> bool:
-    if not S.issubset(af.A):
+def is_conflict_free(systeme_argumentation: AS, S: set[str]) -> bool:
+    if not S.issubset(systeme_argumentation.A):
         raise ValueError("S contient un argument inconnu.")
     
     for arg in S:
-        attacks = af.attacks(arg)
+        attacks = systeme_argumentation.attacks(arg)
         for att in attacks:
             if att in S:
                 return False
     return True
 
-def defends(af: AF, S: set[str], a: str) -> bool:
-    if not S.issubset(af.A):
+def defends(systeme_argumentation: AS, S: set[str], a: str) -> bool:
+    if not S.issubset(systeme_argumentation.A):
         raise ValueError("S contient un argument inconnu.")
-    if a not in af.A:
+    if a not in systeme_argumentation.A:
         raise ValueError(f"L'argument {a} n'est pas dans les arguments.")
     
-    for x in af.attackers_of(a):
+    for x in systeme_argumentation.attackers_of(a):
         find = False
         for y in S:
-            if x in af.attacks(y):
+            if x in systeme_argumentation.attacks(y):
                 find = True
                 break
         if not find:
             return False
     return True
 
-def is_admissible(af: AF, S: set[str]) -> bool:
-    if not is_conflict_free(af, S):
+def is_admissible(systeme_argumentation: AS, S: set[str]) -> bool:
+    if not is_conflict_free(systeme_argumentation, S):
         return False
     for a in S:
-        if not defends(af, S, a):
+        if not defends(systeme_argumentation, S, a):
             return False
     return True
 
-def is_stable(af: AF, S: set[str]) -> bool:
-    if not is_conflict_free(af, S):
+def is_stable(systeme_argumentation: AS, S: set[str]) -> bool:
+    if not is_conflict_free(systeme_argumentation, S):
         return False
-    outside = af.A - S
+    outside = systeme_argumentation.A - S
     attacked_by_S = set()
     for b in S:
-        attacked_by_S |= af.attacks(b)
+        attacked_by_S |= systeme_argumentation.attacks(b)
     return outside.issubset(attacked_by_S)
 
 def all_subsets(A: set[str]) -> list[set[str]]:
@@ -55,17 +55,17 @@ def all_subsets(A: set[str]) -> list[set[str]]:
     return res
 
 
-def admissible_extensions(af: AF) -> list[set[str]]:
+def admissible_extensions(systeme_argumentation: AS) -> list[set[str]]:
     res = []
-    sous_ensembles = all_subsets(af.A)
+    sous_ensembles = all_subsets(systeme_argumentation.A)
     for se in sous_ensembles:
-        if is_admissible(af, se):
+        if is_admissible(systeme_argumentation, se):
             res.append(se)
     return res
 
-def preferred_extensions(af: AF) -> list[set[str]]:
+def preferred_extensions(systeme_argumentation: AS) -> list[set[str]]:
     res = []
-    admissibles = admissible_extensions(af)
+    admissibles = admissible_extensions(systeme_argumentation)
     for i in range(len(admissibles)):
         S = admissibles[i]
         pref = True
@@ -77,10 +77,10 @@ def preferred_extensions(af: AF) -> list[set[str]]:
             res.append(S)
     return res
 
-def stable_extensions(af: AF) -> list[set[str]]:
+def stable_extensions(systeme_argumentation: AS) -> list[set[str]]:
     res = []
-    sous_ensembles = all_subsets(af.A)
+    sous_ensembles = all_subsets(systeme_argumentation.A)
     for se in sous_ensembles:
-        if is_stable(af, se):
+        if is_stable(systeme_argumentation, se):
             res.append(se)
     return res
