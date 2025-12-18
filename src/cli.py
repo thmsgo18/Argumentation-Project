@@ -19,10 +19,10 @@ def parse_args(argv):
         - "file": chemin du fichier .apx.
         - "arguments": arguments de la requête sous forme de chaîne.
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-p", required= True, choices=['VE-PR', 'DC-PR', 'DS-PR', 'VE-ST', 'DC-ST', 'DS-ST'])
-    parser.add_argument("-f", required= True)
-    parser.add_argument("-a", required= True)
+    parser = argparse.ArgumentParser()              # Séparation des arguments de ligne de commande.
+    parser.add_argument("-p", required= True, choices=['VE-PR', 'DC-PR', 'DS-PR', 'VE-ST', 'DC-ST', 'DS-ST']) # Récupération du nom du problème. (On vérifie que l'on gère ce problème.)
+    parser.add_argument("-f", required= True)       # Récupération du nom du fichier .apx.
+    parser.add_argument("-a", required= True)       # Récupération de(s) argument(s).
 
     args = parser.parse_args(argv)
 
@@ -30,4 +30,4 @@ def parse_args(argv):
         "probleme" : args.p,
         "file" : args.f,
         "arguments" : args.a
-    }
+    }   # On retourne un dictionnaire avec les infos dont on à besoin.

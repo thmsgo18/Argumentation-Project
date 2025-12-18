@@ -56,7 +56,7 @@ def ve_pr(systeme_argumentation: AS, S: set[str]) -> bool:
         - True si S est une extension préférée.
         - False sinon.
     """
-    return S in semantics.preferred_extensions(systeme_argumentation)
+    return S in semantics.preferred_extensions(systeme_argumentation) # Teste si S est dans l'ensemble des extensions préférées du système.
 
 def dc_pr(systeme_argumentation: AS, a: str) -> bool:
     """
@@ -68,7 +68,7 @@ def dc_pr(systeme_argumentation: AS, a: str) -> bool:
         - True si a est crédullement accepté.
         - False sinon.
     """
-    return any(a in S for S in semantics.preferred_extensions(systeme_argumentation))
+    return any(a in S for S in semantics.preferred_extensions(systeme_argumentation)) # Teste si l'argument 'a' est au moins dans une des extentions préférées.
 
 def ds_pr(systeme_argumentation: AS, a: str) -> bool:
     """
@@ -80,8 +80,8 @@ def ds_pr(systeme_argumentation: AS, a: str) -> bool:
         - True si a est sceptiquement accepté.
         - False sinon.
     """
-    exts = semantics.preferred_extensions(systeme_argumentation)
-    return (not exts) or all(a in S for S in exts)
+    exts = semantics.preferred_extensions(systeme_argumentation) # Toutes les extensions préférées du système.
+    return (not exts) or all(a in S for S in exts) # Teste s'il n'y a pas d'extensions préférées ou si 'a' appartient a toutes les extentions préférées.
 
 # --- Stable semantics (ST) ---
 
@@ -95,7 +95,7 @@ def ve_st(systeme_argumentation: AS, S: set[str]) -> bool:
         - True si S est une extension stable.
         - False sinon.
     """
-    return S in semantics.stable_extensions(systeme_argumentation)
+    return S in semantics.stable_extensions(systeme_argumentation) #Teste si 'S' est dans l'ensemble des extensions stables.
 
 def dc_st(systeme_argumentation: AS, a: str) -> bool:
     """
@@ -107,7 +107,7 @@ def dc_st(systeme_argumentation: AS, a: str) -> bool:
         - True si a est crédullement accepté.
         - False sinon.
     """
-    return any(a in S for S in semantics.stable_extensions(systeme_argumentation))
+    return any(a in S for S in semantics.stable_extensions(systeme_argumentation)) # On teste si 'a' appartient à au moins une des extension stable.
 
 def ds_st(systeme_argumentation: AS, a: str) -> bool:
     """
@@ -119,5 +119,5 @@ def ds_st(systeme_argumentation: AS, a: str) -> bool:
         - True si a est sceptiquement accepté.
         - False sinon.
     """
-    exts = semantics.stable_extensions(systeme_argumentation)
-    return (not exts) or all(a in S for S in exts)
+    exts = semantics.stable_extensions(systeme_argumentation) # Toutes les extensions stables du système.
+    return (not exts) or all(a in S for S in exts) # Teste s'il n'y a pas d'extensions stable ou si 'a' appartient a toutes les extentions stables.

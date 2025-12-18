@@ -28,15 +28,15 @@ def is_conflict_free(systeme_argumentation: AS, S: set[str]) -> bool:
         - False sinon.
     Raises: ValueError: si S contient un argument inconnu.
     """
-    if not S.issubset(systeme_argumentation.A):
+    if not S.issubset(systeme_argumentation.A): # Vérification que l'ensemble S est un sous ensemble de l'ensemble des arguments de l'AS.
         raise ValueError("S contient un argument inconnu.")
     
-    for arg in S:
-        attacks = systeme_argumentation.attacks(arg)
-        for att in attacks:
-            if att in S:
-                return False
-    return True
+    for arg in S:   # On boucle sur tout les arguments de l'ensemble S.
+        attacks = systeme_argumentation.attacks(arg)    # Ensemble des arguments attaqué par l'argument sur lequel on boucle.
+        for att in attacks:     # On itére sur les arguments attaqués.
+            if att in S:        # On teste leur présence dans l'ensemble S.
+                return False        # Si un argument de S est attaqué par un autre argument de S on retourne False.
+    return True     # Si aucuns des arguments de S ne s'attaque.
 
 def defends(systeme_argumentation: AS, S: set[str], a: str) -> bool:
     """
@@ -50,16 +50,16 @@ def defends(systeme_argumentation: AS, S: set[str], a: str) -> bool:
         - False sinon.
     Raises: ValueError: si S ou a contient un argument inconnu.
     """
-    if not S.issubset(systeme_argumentation.A):
+    if not S.issubset(systeme_argumentation.A):     # Vérification que l'ensemble S est un sous ensemble de l'ensemble des arguments de l'AS.
         raise ValueError("S contient un argument inconnu.")
-    if a not in systeme_argumentation.A:
+    if a not in systeme_argumentation.A:            # Vérification que l'argument a est présent dans l'ensemble des arguments de l'AS.
         raise ValueError(f"L'argument {a} n'est pas dans les arguments.")
     
-    for x in systeme_argumentation.attackers_of(a):
+    for x in systeme_argumentation.attackers_of(a): # On boucle sur les attaquant de l'argument a. x représente donc un attaquant de a.
         find = False
-        for y in S:
-            if x in systeme_argumentation.attacks(y):
-                find = True
+        for y in S: # On boucle sur les arguments de l'ensemble S.
+            if x in systeme_argumentation.attacks(y): # Si y attaque x.
+                find = True # On indique que un élément de Y défend bien a. (a <-- x <-- y)
                 break
         if not find:
             return False
@@ -75,10 +75,10 @@ def is_admissible(systeme_argumentation: AS, S: set[str]) -> bool:
         - True si S est sans conflit et défend tous ses éléments.
         - False sinon.
     """
-    if not is_conflict_free(systeme_argumentation, S):
-        return False
-    for a in S:
-        if not defends(systeme_argumentation, S, a):
+    if not is_conflict_free(systeme_argumentation, S):      # Vérification que l'ensemble S est sans conflit.
+        return False        # S'il n'est pas sans conflit on retourne False.
+    for a in S:             # On itére sur tous les arguments de a.
+        if not defends(systeme_argumentation, S, a): # Si a n'est pas défendu par l'ensemble S. 
             return False
     return True
 
@@ -92,13 +92,13 @@ def is_stable(systeme_argumentation: AS, S: set[str]) -> bool:
         - True si S est sans conflit et attaque tous les arguments hors de S.
         - False sinon.
     """
-    if not is_conflict_free(systeme_argumentation, S):
+    if not is_conflict_free(systeme_argumentation, S):      # Vérification que l'ensemble S est sans conflit.
         return False
-    outside = systeme_argumentation.A - S
-    attacked_by_S = set()
-    for b in S:
-        attacked_by_S |= systeme_argumentation.attacks(b)
-    return outside.issubset(attacked_by_S)
+    outside = systeme_argumentation.A - S       # On cherche tous les arguments non compris dans l'ensemble S.
+    attacked_by_S = set()       # Initialisation de l'ensemble des arguments qui sont attaqués par un argument de l'ensemble S.
+    for b in S:                 # b est un argument de S.
+        attacked_by_S |= systeme_argumentation.attacks(b)   # Union de attacked_by_S et des arguments attaqué par b.
+    return outside.issubset(attacked_by_S)      # On teste si outside est un sous ensemble de l'ensembles des attacked_by_S.
 
 def all_subsets(A: set[str]) -> list[set[str]]:
     """
@@ -108,12 +108,12 @@ def all_subsets(A: set[str]) -> list[set[str]]:
     Returns:
         - Liste de tous les sous-ensembles de A.
     """
-    res = []
-    elements = list(A)
+    res = []                # Initialisation de la liste des sous ensembles.
+    elements = list(A)      # Transformation de l'ensemble A en liste.
     for k in range(len(elements)+1):
-        for combo in combinations(elements, k):
-            S = set(combo)
-            res.append(S)
+        for combo in combinations(elements, k): # Itération sur les combinaisons compossible de l'ensemble A de taille k.
+            S = set(combo)      # Transformation de la combinaison en ensemble.
+            res.append(S)       # Ajout de la combinaison à la liste des sous ensemble.
     return res
 
 # ******** Recherche des extensions: ********
@@ -126,11 +126,11 @@ def admissible_extensions(systeme_argumentation: AS) -> list[set[str]]:
     Returns:
         - Liste des ensembles admissibles.
     """
-    res = []
-    sous_ensembles = all_subsets(systeme_argumentation.A)
-    for se in sous_ensembles:
-        if is_admissible(systeme_argumentation, se):
-            res.append(se)
+    res = []                # Initialisation de la liste des extensions admissibles.
+    sous_ensembles = all_subsets(systeme_argumentation.A) # Liste des sous ensembles de l'AS.
+    for se in sous_ensembles:                           # On boucle sur chaque sous ensembles.
+        if is_admissible(systeme_argumentation, se):    # On teste si le sous ensemble est admissible.
+            res.append(se)                              # Si tel est le cas on le rajoute à la liste des extensions admissibles.
     return res
 
 def preferred_extensions(systeme_argumentation: AS) -> list[set[str]]:
@@ -141,10 +141,10 @@ def preferred_extensions(systeme_argumentation: AS) -> list[set[str]]:
     Returns:
         - Liste des extensions admissibles maximales par inclusion.
     """
-    res = []
-    admissibles = admissible_extensions(systeme_argumentation)
-    for i in range(len(admissibles)):
-        S = admissibles[i]
+    res = []                # Initialisation de la liste des extensions préférées.
+    admissibles = admissible_extensions(systeme_argumentation) # Liste des extentions admissibles de l'AS.
+    for i in range(len(admissibles)): # Parcourt chaque extension admissible.
+        S = admissibles[i] # S = extension admissible courante sur laquelle on itère.
         pref = True
         for admi in admissibles:
             if S < admi:
