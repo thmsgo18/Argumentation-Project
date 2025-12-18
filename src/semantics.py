@@ -1,4 +1,5 @@
 from src.af import AF
+from itertools import combinations
 
 def is_conflict_free(af: AF, S: set[str]) -> bool:
     if not S.issubset(af.A):
@@ -44,16 +45,45 @@ def is_stable(af: AF, S: set[str]) -> bool:
         attacked_by_S |= af.attacks(b)
     return outside.issubset(attacked_by_S)
 
+def all_subsets(A: set[str]) -> list[set[str]]:
+    res = []
+    elements = list(A)
+    for k in range(len(elements)+1):
+        for combo in combinations(elements, k):
+            S = set(combo)
+            res.append(S)
+    return res
 
 
-# def all_subsets(A: set[str]) -> list[set[str]] (ou générateur):
+def admissible_extensions(af: AF) -> list[set[str]]:
+    res = []
+    sous_ensembles = all_subsets(af.A)
+    for se in sous_ensembles:
+        if is_admissible(af, se):
+            res.append(se)
+    return res
 
-# def admissible_extensions(af: AF) -> list[set[str]]:
+def preferred_extensions(af: AF) -> list[set[str]]:
+    res = []
+    admissibles = admissible_extensions(af)
+    for i in range(len(admissibles)):
+        S = admissibles[i]
+        pref = True
+        for admi in admissibles:
+            if S < admi:
+                pref = False
+                break
+        if pref:
+            res.append(S)
+    return res
 
-# def preferred_extensions(af: AF) -> list[set[str]]:
-
-# def stable_extensions(af: AF) -> list[set[str]]:
-
+def stable_extensions(af: AF) -> list[set[str]]:
+    res = []
+    sous_ensembles = all_subsets(af.A)
+    for se in sous_ensembles:
+        if is_stable(af, se):
+            res.append(se)
+    return res
 
 
 
