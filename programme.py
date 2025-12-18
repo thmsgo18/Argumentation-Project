@@ -1,3 +1,17 @@
+"""
+program.py
+
+Point d'entrée principal du programme.
+Orchestration complète :
+  - parsing de la ligne de commande.
+  - validation de la requête utilisateur.
+  - parsing du fichier .apx.
+  - construction du système d'argumentation.
+  - résolution de la requête.
+
+Affiche uniquement YES ou NO sur la sortie standard.
+Les erreurs sont affichées sur stderr et pas sur la sortie standard.
+"""
 import sys
 from src.cli import parse_args
 from src.apx_parser import parse_apx
@@ -5,6 +19,16 @@ from src.systeme_argumentation import AS
 from src.queries import solve_query
 
 def parse_and_validate_query(problem: str, raw_a: str):
+    """
+    Parse et valide l'argument -a en fonction du problème.
+    Args:
+        - problem: type de problème.
+        - raw_a: valeur brute de l'option -a (chaine de caractères).
+    Returns:
+        - Un ensemble d'arguments (set[str]) pour VE.
+        - Un argument unique (str) pour DC / DS.
+    Raises: ValueError: si le format de -a est invalide.
+    """
     raw_a = raw_a.strip().lower()
     tokens = []
     if not problem.startswith("VE-"):
@@ -22,6 +46,9 @@ def parse_and_validate_query(problem: str, raw_a: str):
     return set(tokens)
 
 def main():
+    """
+    Fonction principale du programme.
+    """
     try:
         args = parse_args(sys.argv[1:])
         problem = args["probleme"]
@@ -39,4 +66,7 @@ def main():
         sys.exit(1)
 
 if __name__ == "__main__":
+    """
+    Lancement du programme depuis la ligne de commande.
+    """
     main()

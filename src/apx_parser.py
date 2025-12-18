@@ -1,4 +1,19 @@
+"""
+src/parse_apx.py
+
+Parsing des fichiers .apx décrivant une AS.
+Lecture des arguments et des attaques.
+"""
 def parse_apx(path: str) -> tuple[set[str], set[tuple[str, str]]]:
+    """
+    Parse un fichier .apx et construit la AS.
+    Args:
+        - path: chemin du fichier .apx.
+    Returns:
+        - A: ensemble des arguments (set[str]).
+        - R: ensemble des attaques (set[(str, str)]).
+    Raises: ValueError: si une attaque utilise un argument non déclaré.
+    """
     A = set()
     R = set()
     with open(path, 'r', encoding= 'utf-8') as fichier:
