@@ -37,7 +37,7 @@ def ds_pr(af: AF, a: str) -> bool:
     exts = semantics.preferred_extensions(af)
     return (not exts) or all(a in S for S in exts)
 
-# # --- Stable semantics (ST) ---
+# --- Stable semantics (ST) ---
 
 def ve_st(af: AF, S: set[str]) -> bool:
     return S in semantics.stable_extensions(af)
