@@ -144,13 +144,13 @@ def preferred_extensions(systeme_argumentation: AS) -> list[set[str]]:
     res = []                # Initialisation de la liste des extensions préférées.
     admissibles = admissible_extensions(systeme_argumentation) # Liste des extentions admissibles de l'AS.
     for i in range(len(admissibles)): # Parcourt chaque extension admissible.
-        S = admissibles[i] # S = extension admissible courante sur laquelle on itère.
-        pref = True
-        for admi in admissibles:
-            if S < admi:
+        S = admissibles[i]  # S = extension admissible courante sur laquelle on itère.
+        pref = True                 # On pose S est préferré.
+        for admi in admissibles:    # On boucle sur les admissibles.
+            if S < admi:            # Si S est inclu dans l'admissible sur lequel on itére on sort de la boucle.
                 pref = False
                 break
-        if pref:
+        if pref:    # Si pref est encore a True (cest a dire qu'on a pas trouvé d'expression plus inclue S)
             res.append(S)
     return res
 
@@ -162,9 +162,9 @@ def stable_extensions(systeme_argumentation: AS) -> list[set[str]]:
     Returns:
         - Liste des extensions stables.
     """
-    res = []
-    sous_ensembles = all_subsets(systeme_argumentation.A)
-    for se in sous_ensembles:
-        if is_stable(systeme_argumentation, se):
-            res.append(se)
+    res = []                # Initialisation de la liste des extensions stables.
+    sous_ensembles = all_subsets(systeme_argumentation.A) # Liste des sous ensembles de l'AS.
+    for se in sous_ensembles:                           # On boucle sur chaque sous ensembles.
+        if is_stable(systeme_argumentation, se):        # On teste si le sous ensemble est stable.
+            res.append(se)                              # Si tel est le cas on le rajoute à la liste des extensions admissibles.
     return res

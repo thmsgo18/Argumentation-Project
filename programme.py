@@ -29,39 +29,39 @@ def parse_and_validate_query(problem: str, raw_a: str):
         - Un argument unique (str) pour DC / DS.
     Raises: ValueError: si le format de -a est invalide.
     """
-    raw_a = raw_a.strip().lower()
-    tokens = []
-    if not problem.startswith("VE-"):
-        if "," in raw_a:
+    raw_a = raw_a.strip().lower()   # Suppression des espaces inutile et mise en minuscule.
+    tokens = []                     # Initatialisation de la liste les arguments pour les problèmes VE-.
+    if not problem.startswith("VE-"):   # Cas DC / DS où on attend un seul argument.
+        if "," in raw_a:                # On teste la présence d'une virgule (c'ets a dire est ce qu'il y'a plusieurs arguments).
             raise ValueError("Error: -a doit contenir un seul argument.")
-        if raw_a == "":
+        if raw_a == "":                 # On teste si la chaine est vide (c'est a dire il n'y a pas d'arguments).
             raise ValueError("Error: -a ne peut pas être vide.")
-        return raw_a
-    for t in raw_a.split(","):
-        t = t.strip()
-        if t != "":
-            tokens.append(t)
-    if not tokens:
+        return raw_a        # On retourne l'argument.
+    for t in raw_a.split(","):  # On itère sur la liste d'arguments qui a été créé en séparant à partir de la virgule.
+        t = t.strip()           # Suppression des espaces inutile.
+        if t != "":             # On teste si la chaine est vide.
+            tokens.append(t)    # Si la chaine n'est pas vide on l'ajoute à la liste des arguments.
+    if not tokens:              # Si la liste des arguments est vide on lève une erreur.
         raise ValueError("Error: -a doit contenir au moins un argument.")
-    return set(tokens)
+    return set(tokens) # On retourne le(s) argument(s) sous forme d'ensemble.
 
 def main():
     """
     Fonction principale du programme.
     """
-    try:
-        args = parse_args(sys.argv[1:])
-        problem = args["probleme"]
+    try: # Bloc permettant de géré les erreurs pouvant etre provoquée par les fonctions à l'intérieur.
+        args = parse_args(sys.argv[1:]) # Récupération des paramètres passés en ligne de commande.
+        problem = args["probleme"]      # Récupération du problème voulant etre traité.
 
-        query = parse_and_validate_query(problem, args["arguments"])
+        query = parse_and_validate_query(problem, args["arguments"]) # Récupération des arguments à 
 
-        A, R = parse_apx(args["file"])
-        systeme_argumentation = AS(A, R)
+        A, R = parse_apx(args["file"])      # Récupération des attributs et des relations à partir du fichier.
+        systeme_argumentation = AS(A, R)    # Création du système d'argumentation à partir du fichier renseigné.
 
-        res = solve_query(problem, systeme_argumentation, query)
-        print("YES" if res else "NO")
+        res = solve_query(problem, systeme_argumentation, query) # Résolution du problème voulu avec les arguments voulu pour le système d'argumentation voulu.
+        print("YES" if res else "NO")   # Affiche YES ou NO en fonction du résultat de la résolution du problème.
 
-    except Exception as e:
+    except Exception as e:              # En cas d'erreur, le programme affiche l'erreur sur la sortir d'erreur et pas sur la sortie standard.
         print(str(e), file=sys.stderr)
         sys.exit(1)
 

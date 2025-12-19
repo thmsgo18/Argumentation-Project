@@ -44,7 +44,7 @@ def solve_query(problem: str, systeme_argumentation: AS, query) -> bool:
             raise ValueError(f"Problème inconnu: {problem}")
 
 
-# --- Preferred semantics (PR) ---
+# --- Extensions préférées (PR) ---
 
 def ve_pr(systeme_argumentation: AS, S: set[str]) -> bool:
     """
@@ -83,7 +83,8 @@ def ds_pr(systeme_argumentation: AS, a: str) -> bool:
     exts = semantics.preferred_extensions(systeme_argumentation) # Toutes les extensions préférées du système.
     return (not exts) or all(a in S for S in exts) # Teste s'il n'y a pas d'extensions préférées ou si 'a' appartient a toutes les extentions préférées.
 
-# --- Stable semantics (ST) ---
+
+# --- Extensions stables (ST) ---
 
 def ve_st(systeme_argumentation: AS, S: set[str]) -> bool:
     """
