@@ -1,11 +1,11 @@
-# 🎯 Projet Argumentation Abstraite
+# 🎯 Projet Argumentation
 
 > Projet de Master IAD - Représentation des Connaissances et Raisonnement  
 > Année universitaire 2025-2026
 
 ## 📋 Description
 
-Ce projet implémente un solveur pour systèmes d'argumentation abstraite (Abstract Argumentation Framework). Il permet de calculer et vérifier différents types d'extensions selon les sémantiques préférées (PR) et stables (ST).
+Ce projet implémente un solveur pour systèmes d'argumentation (AS). Il permet de calculer et vérifier différents types d'extensions selon les sémantiques préférées (PR) et stables (ST).
 
 Un système d'argumentation est défini par **F = ⟨A, R⟩** où :
 - **A** est un ensemble d'arguments abstraits
@@ -42,7 +42,7 @@ python3 --version
 ### Syntaxe générale
 
 ```bash
-python3 programme.py -p <PROBLEME> -f <FICHIER> -a <ARGUMENTS>
+python3 program.py -p <PROBLEME> -f <FICHIER> -a <ARGUMENTS>
 ```
 
 ### Paramètres
@@ -59,19 +59,19 @@ En supposant que `af.txt` contient l'AF avec A = {a,b,c,d} et R = {(a,b), (b,c),
 
 ```bash
 # Vérifier si {a,c,d} est une extension préférée
-python3 programme.py -p VE-PR -f af.txt -a a,c,d
+python3 program.py -p VE-PR -f af.txt -a a,c,d
 # Sortie: YES
 
 # Vérifier l'acceptabilité crédule de 'b' (préférée)
-python3 programme.py -p DC-PR -f af.txt -a b
+python3 program.py -p DC-PR -f af.txt -a b
 # Sortie: NO
 
 # Vérifier l'acceptabilité sceptique de 'a' (préférée)
-python3 programme.py -p DS-PR -f af.txt -a a
+python3 program.py -p DS-PR -f af.txt -a a
 # Sortie: YES
 
 # Vérifier si {a,c,d} est une extension stable
-python3 programme.py -p VE-ST -f af.txt -a a,c,d
+python3 program.py -p VE-ST -f af.txt -a a,c,d
 # Sortie: YES
 ```
 
@@ -79,23 +79,23 @@ python3 programme.py -p VE-ST -f af.txt -a a,c,d
 
 ```
 Projet-RCR/
-├── README.md                    # Ce fichier
-├── programme.py                 # Point d'entrée principal
-├── af.txt                       # Exemple de fichier AF
+├── README.md                
+├── program.py                   # Point d'entrée principal
 ├── src/
 │   ├── __init__.py
 │   ├── cli.py                   # Gestion des arguments en ligne de commande
 │   ├── apx_parser.py            # Parser pour fichiers .apx
-│   ├── af.py                    # Classe AF (Argumentation Framework)
+│   ├── systeme_argumentation.py # Classe pour le système d'argumentation
 │   ├── semantics.py             # Algorithmes pour les sémantiques
 │   └── queries.py               # Résolution des requêtes
-├── Fichiers-tests/              # Fichiers de test fournis
-│   ├── test_af1.apx
-│   ├── test_af1_pr.txt
-│   ├── test_af1_st.txt
-│   └── ...
-└── tests/                       # Tests unitaires (à compléter)
-    └── __init__.py
+└── Fichiers-tests/              # Fichiers de test fournis
+    ├── test_af1.apx
+    ├── test_af1_pr.txt
+    ├── test_af1_st.txt
+    ├── test_af2.apx
+    ├── test_af2_pr.txt
+    ├── test_af2_st.txt
+    └── ...
 ```
 
 ## 📝 Format du fichier .apx
@@ -132,45 +132,18 @@ a → b → c
     d
 ```
 
-## 🧮 Algorithmes implémentés
-
-### Sémantique préférée
-
-1. Génération de tous les sous-ensembles de A
-2. Filtrage des ensembles sans conflit
-3. Filtrage des ensembles admissibles (qui se défendent)
-4. Sélection des ensembles maximaux par inclusion
-
-### Sémantique stable
-
-1. Génération de tous les sous-ensembles de A
-2. Filtrage des ensembles sans conflit
-3. Vérification que tous les arguments extérieurs sont attaqués
-
-**Note** : L'approche actuelle est exhaustive (complexité exponentielle). Pour des AF de plus de 20 arguments, des optimisations seraient nécessaires.
-
-## 🔍 Tests
+## 🔍 Exemples de tests
 
 Le dossier `Fichiers-tests/` contient plusieurs cas de test :
 
 ```bash
 # Tester avec les fichiers fournis
-python3 programme.py -p VE-PR -f Fichiers-tests/test_af1.apx -a a,c,d
-python3 programme.py -p DC-ST -f Fichiers-tests/test_af2.apx -a b
+python3 program.py -p VE-PR -f Fichiers-tests/test_af1.apx -a a,c,d
+python3 program.py -p DC-ST -f Fichiers-tests/test_af2.apx -a b
 ```
-
-## ⚠️ Limitations connues
-
-- Complexité exponentielle : impraticable au-delà de ~20 arguments
-- Pas de cache pour les extensions calculées
-- Pas d'optimisation par élagage (pruning)
 
 ## 👥 Auteurs
 
-Thomas GOMES  
-Master IAD - Université [Nom]
+[@thmsgo18](https://github.com/thmsgo18)
 
-## 📚 Références
-
-Projet basé sur les travaux de Dung (1995) sur l'argumentation abstraite :
-- Dung, P. M. (1995). "On the acceptability of arguments and its fundamental role in nonmonotonic reasoning, logic programming and n-person games". *Artificial Intelligence*, 77(2), 321-357.
+[@RayaneParis](https://github.com/RayaneParis)
