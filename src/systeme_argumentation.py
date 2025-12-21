@@ -11,7 +11,7 @@ Représentation d'un système d’argumentation (AS) avec : <A, R>
 class AS:
     def __init__(self, A: set[str], R:set[tuple[str, str]]):
         """
-        Initialise un AF.
+        Initialise un AS.
         Args:
             - A: ensemble des arguments.
             - R: ensemble des attaques (x, y) avec x attaque y.
