@@ -9,6 +9,3 @@ __pycache__/
 # IDE
 .vscode/
 .DS_Store
-
-# Tests unitaires
-tests/
