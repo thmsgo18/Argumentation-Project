@@ -1,120 +1,119 @@
-# Projet Argumentation
+# Argumentation Framework Solver
 
-> Projet de Master IAD - Représentation des Connaissances et Raisonnement  
-> Année universitaire 2025-2026
+> Master IAD Project - Knowledge Representation and Reasoning  
+> Academic Year 2025-2026
 
-## Description
+**[Français](README.fr.md)** | **English**
 
-Ce projet implémente un solveur pour systèmes d'argumentation (AS). Il permet de calculer et vérifier différents types d'extensions selon les sémantiques préférées (PR) et stables (ST).
+## Overview
 
-Un système d'argumentation est défini par **F = ⟨A, R⟩** où :
-- **A** est un ensemble d'arguments abstraits
-- **R ⊆ A × A** est la relation d'attaque entre arguments
+This project implements a solver for Argumentation Systems (AS). It computes and verifies different types of extensions according to preferred (PR) and stable (ST) semantics.
 
-### Problèmes résolus
+An argumentation framework is defined as **F = ⟨A, R⟩** where:
+- **A** is a set of abstract arguments
+- **R ⊆ A × A** is the attack relation between arguments
 
-Le programme résout les 6 problèmes suivants :
+## Supported Problems
 
-| Type | Sémantique | Description |
-|------|-----------|-------------|
-| **VE-PR** | Préférée | Vérifier si S est une extension préférée |
-| **DC-PR** | Préférée | Acceptabilité crédule d'un argument |
-| **DS-PR** | Préférée | Acceptabilité sceptique d'un argument |
-| **VE-ST** | Stable | Vérifier si S est une extension stable |
-| **DC-ST** | Stable | Acceptabilité crédule d'un argument |
-| **DS-ST** | Stable | Acceptabilité sceptique d'un argument |
+The program solves the following 6 problems:
+
+| Problem | Semantics | Description |
+|---------|-----------|-------------|
+| **VE-PR** | Preferred | Verify if S is a preferred extension |
+| **DC-PR** | Preferred | Credulous acceptance of an argument |
+| **DS-PR** | Preferred | Skeptical acceptance of an argument |
+| **VE-ST** | Stable | Verify if S is a stable extension |
+| **DC-ST** | Stable | Credulous acceptance of an argument |
+| **DS-ST** | Stable | Skeptical acceptance of an argument |
 
 ## Installation
 
-### Prérequis
+### Prerequisites
 
-- Se placer dans le répertoire `code_source`.
-- Python 3.8 ou supérieur
-- Aucune dépendance externe nécessaire (bibliothèque standard uniquement)
+- Python 3.8 or higher
+- No external dependencies required (standard library only)
 
-### Vérification de l'installation
+### Installation Verification
 
 ```bash
 python3 --version
 ```
 
-## Utilisation
+## Usage
 
-### Syntaxe générale
+### General Syntax
 
 ```bash
-python3 program.py -p <PROBLEME> -f <FICHIER> -a <ARGUMENTS>
+python3 program.py -p <PROBLEM> -f <FILE> -a <ARGUMENTS>
 ```
 
-### Paramètres
+### Parameters
 
-- **-p** : Type de problème (`VE-PR`, `DC-PR`, `DS-PR`, `VE-ST`, `DC-ST`, `DS-ST`)
-- **-f** : Chemin vers le fichier `.apx` contenant l'AF
-- **-a** : Arguments de la requête
-  - Pour VE-* : liste séparée par des virgules (ex: `a,c,d`)
-  - Pour DC-* et DS-* : un seul argument (ex: `b`)
+- **-p**: Problem type (`VE-PR`, `DC-PR`, `DS-PR`, `VE-ST`, `DC-ST`, `DS-ST`)
+- **-f**: Path to the `.apx` file containing the argumentation framework
+- **-a**: Query arguments
+  - For VE-* problems: comma-separated list (e.g., `a,c,d`)
+  - For DC-* and DS-* problems: single argument (e.g., `b`)
 
-### Exemples d'utilisation
+### Usage Examples
 
-En supposant que `af.txt` contient l'AF avec A = {a,b,c,d} et R = {(a,b), (b,c), (b,d)} :
+Assuming `af.txt` contains an AF with A = {a,b,c,d} and R = {(a,b), (b,c), (b,d)}:
 
 ```bash
-# Vérifier si {a,c,d} est une extension préférée
+# Verify if {a,c,d} is a preferred extension
 python3 program.py -p VE-PR -f af.txt -a a,c,d
-# Sortie: YES
+# Output: YES
 
-# Vérifier l'acceptabilité crédule de 'b' (préférée)
+# Check credulous acceptance of 'b' (preferred semantics)
 python3 program.py -p DC-PR -f af.txt -a b
-# Sortie: NO
+# Output: NO
 
-# Vérifier l'acceptabilité sceptique de 'a' (préférée)
+# Check skeptical acceptance of 'a' (preferred semantics)
 python3 program.py -p DS-PR -f af.txt -a a
-# Sortie: YES
+# Output: YES
 
-# Vérifier si {a,c,d} est une extension stable
+# Verify if {a,c,d} is a stable extension
 python3 program.py -p VE-ST -f af.txt -a a,c,d
-# Sortie: YES
+# Output: YES
 ```
 
-## Structure du projet
+## Project Structure
 
 ```
-Projet-RCR/
+Argumentation-Project/
 ├── README.md                
-├── program.py                   # Point d'entrée principal
+├── README.fr.md             # French documentation
+├── program.py               # Main entry point
 ├── src/
 │   ├── __init__.py
-│   ├── cli.py                   # Gestion des arguments en ligne de commande
-│   ├── apx_parser.py            # Parser pour fichiers .apx
-│   ├── systeme_argumentation.py # Classe pour le système d'argumentation
-│   ├── semantics.py             # Algorithmes pour les sémantiques
-│   └── queries.py               # Résolution des requêtes
-└── Fichiers-tests/              # Fichiers de test fournis
+│   ├── cli.py              # Command-line argument handling
+│   ├── apx_parser.py       # Parser for .apx files
+│   ├── systeme_argumentation.py  # Argumentation system class
+│   ├── semantics.py        # Semantics algorithms
+│   └── queries.py          # Query resolution
+└── Fichiers-tests/         # Test files
     ├── test_af1.apx
     ├── test_af1_pr.txt
     ├── test_af1_st.txt
-    ├── test_af2.apx
-    ├── test_af2_pr.txt
-    ├── test_af2_st.txt
     └── ...
 ```
 
-## Format du fichier .apx
+## APX File Format
 
-Les fichiers `.apx` suivent le format suivant :
+The `.apx` files follow this format:
 
 ```
-arg(nom_argument).
-att(argument_source,argument_cible).
+arg(argument_name).
+att(source_argument,target_argument).
 ```
 
-### Règles
+### Format Rules
 
-- Chaque argument doit être déclaré avec `arg()` avant d'être utilisé dans une attaque
-- Pas d'espaces dans les lignes
-- Les noms peuvent contenir lettres, chiffres et `_` (sauf `arg` et `att` qui sont réservés)
+- Each argument must be declared with `arg()` before being used in an attack
+- No spaces in lines
+- Argument names can contain letters, numbers, and `_` (except `arg` and `att` which are reserved)
 
-### Exemple
+### Example
 
 ```
 arg(a).
@@ -126,25 +125,43 @@ att(b,c).
 att(b,d).
 ```
 
-Cet exemple représente le graphe :
+This example represents the following graph:
 ```
 a → b → c
     ↓
     d
 ```
 
-## Exemples de tests
+## Running Tests
 
-Le dossier `Fichiers-tests/` contient plusieurs cas de test :
+The `Fichiers-tests/` directory contains several test cases:
 
 ```bash
-# Tester avec les fichiers fournis
+# Test with provided files
 python3 program.py -p VE-PR -f Fichiers-tests/test_af1.apx -a a,c,d
 python3 program.py -p DC-ST -f Fichiers-tests/test_af2.apx -a b
 ```
 
-## Auteurs
+## Implementation Details
 
-[@thmsgo18](https://github.com/thmsgo18)
+### Preferred Extensions
 
-[@RayaneParis](https://github.com/RayaneParis)
+The solver uses a backtracking algorithm to compute all conflict-free, admissible sets, and then identifies maximal admissible sets (preferred extensions).
+
+### Stable Extensions
+
+A stable extension is computed by finding conflict-free sets that attack all arguments outside the set.
+
+### Query Resolution
+
+- **VE (Verification)**: Checks if the given set is an extension under the specified semantics
+- **DC (Credulous)**: Returns YES if the argument appears in at least one extension
+- **DS (Skeptical)**: Returns YES if the argument appears in all extensions
+
+## Author
+
+[@thmsgo18](https://github.com/thmsgo18) - Thomas Gourmelen
+
+## License
+
+This project is part of academic coursework at Master IAD level.
