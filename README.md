@@ -1,9 +1,9 @@
-# 🎯 Projet Argumentation
+# Projet Argumentation
 
 > Projet de Master IAD - Représentation des Connaissances et Raisonnement  
 > Année universitaire 2025-2026
 
-## 📋 Description
+## Description
 
 Ce projet implémente un solveur pour systèmes d'argumentation (AS). Il permet de calculer et vérifier différents types d'extensions selon les sémantiques préférées (PR) et stables (ST).
 
@@ -24,10 +24,11 @@ Le programme résout les 6 problèmes suivants :
 | **DC-ST** | Stable | Acceptabilité crédule d'un argument |
 | **DS-ST** | Stable | Acceptabilité sceptique d'un argument |
 
-## 🚀 Installation
+## Installation
 
 ### Prérequis
 
+- Se placer dans le répertoire `code_source`.
 - Python 3.8 ou supérieur
 - Aucune dépendance externe nécessaire (bibliothèque standard uniquement)
 
@@ -37,7 +38,7 @@ Le programme résout les 6 problèmes suivants :
 python3 --version
 ```
 
-## 💻 Utilisation
+## Utilisation
 
 ### Syntaxe générale
 
@@ -75,7 +76,7 @@ python3 program.py -p VE-ST -f af.txt -a a,c,d
 # Sortie: YES
 ```
 
-## 📁 Structure du projet
+## Structure du projet
 
 ```
 Projet-RCR/
@@ -98,7 +99,7 @@ Projet-RCR/
     └── ...
 ```
 
-## 📝 Format du fichier .apx
+## Format du fichier .apx
 
 Les fichiers `.apx` suivent le format suivant :
 
@@ -132,7 +133,7 @@ a → b → c
     d
 ```
 
-## 🔍 Exemples de tests
+## Exemples de tests
 
 Le dossier `Fichiers-tests/` contient plusieurs cas de test :
 
@@ -142,7 +143,7 @@ python3 program.py -p VE-PR -f Fichiers-tests/test_af1.apx -a a,c,d
 python3 program.py -p DC-ST -f Fichiers-tests/test_af2.apx -a b
 ```
 
-## 👥 Auteurs
+## Auteurs
 
 [@thmsgo18](https://github.com/thmsgo18)
 
