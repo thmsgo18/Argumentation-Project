@@ -13,6 +13,8 @@ An argumentation framework is defined as **F = ⟨A, R⟩** where:
 - **A** is a set of abstract arguments
 - **R ⊆ A × A** is the attack relation between arguments
 
+**For more detailed information, please refer to the [detailed report](rapport.pdf).**
+
 ## Supported Problems
 
 The program solves the following 6 problems:
@@ -161,7 +163,3 @@ A stable extension is computed by finding conflict-free sets that attack all arg
 ## Author
 
 [@thmsgo18](https://github.com/thmsgo18) - Thomas Gourmelen
-
-## License
-
-This project is part of academic coursework at Master IAD level.

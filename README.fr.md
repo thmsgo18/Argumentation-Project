@@ -13,6 +13,8 @@ Un système d'argumentation est défini par **F = ⟨A, R⟩** où :
 - **A** est un ensemble d'arguments abstraits
 - **R ⊆ A × A** est la relation d'attaque entre arguments
 
+**Pour plus d'informations, consultez le [rapport détaillé](rapport.pdf).**
+
 ## Problèmes Supportés
 
 Le programme résout les 6 problèmes suivants :
@@ -161,7 +163,3 @@ Une extension stable est calculée en trouvant des ensembles sans conflit qui at
 ## Auteur
 
 [@thmsgo18](https://github.com/thmsgo18) - Thomas Gourmelen
-
-## Licence
-
-Ce projet fait partie du cursus académique du Master IAD.
